@@ -161,14 +161,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             if (deflexCarousel.children.length > 0) {
-                const cardWidth = deflexCarousel.children[0].offsetWidth;
-                const gap = 20; 
-                const setWidth = (cardWidth + gap) * originalCards.length;
+                const firstChild = deflexCarousel.children[0];
+                const firstClone = deflexCarousel.children[originalCards.length];
                 
-                // Loop check: if scrolled to 4th set, silently jump back to 3rd set
+                // setWidth is the exact pixel width of one complete set of original cards
+                const setWidth = firstClone.offsetLeft - firstChild.offsetLeft;
+                
+                // Loop check: Keep scroll position within a safe middle zone to allow endless swiping in both directions
                 if (deflexCarousel.scrollLeft >= setWidth * 3) {
                     deflexCarousel.scrollLeft -= setWidth;
-                } else if (deflexCarousel.scrollLeft <= setWidth) { // if scrolled back to 2nd set
+                } else if (deflexCarousel.scrollLeft <= setWidth) {
                     deflexCarousel.scrollLeft += setWidth;
                 }
             }
@@ -178,10 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setTimeout(() => {
             if (deflexCarousel.children.length > 0) {
-                const cardWidth = deflexCarousel.children[0].offsetWidth;
-                const gap = 20; 
-                const setWidth = (cardWidth + gap) * originalCards.length;
-                // Start at the third set (index 2)
+                const firstChild = deflexCarousel.children[0];
+                const firstClone = deflexCarousel.children[originalCards.length];
+                const setWidth = firstClone.offsetLeft - firstChild.offsetLeft;
+                
+                // Start exactly at the second clone set (Set 3) so we have equal buffer on both sides
                 deflexCarousel.scrollLeft = setWidth * 2;
                 autoScroll();
             }

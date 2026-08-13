@@ -933,4 +933,8 @@ footer {
     height: 120px;
     animation: float-down-up 4s ease-in-out infinite;
   }
+
+  .deflex-carousel.is-cloned {
+    justify-content: flex-start;
+  }
 }
